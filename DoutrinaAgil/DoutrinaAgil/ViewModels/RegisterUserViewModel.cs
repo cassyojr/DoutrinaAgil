@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace DoutrinaAgil.ViewModels
+namespace DoutrinaAgil.Web.ViewModels
 {
     public class RegisterUserViewModel
     {

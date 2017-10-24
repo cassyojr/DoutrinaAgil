@@ -11,7 +11,7 @@
     <link href="~/Content/site.css" rel="stylesheet" />
 </head>
 <body>
-   
+
     <header>
         <div class="container">
             <div class="row">
@@ -54,7 +54,7 @@
     </footer>
 
     <!-- Register user modal -->
-    @model DoutrinaAgil.ViewModels.RegisterUserViewModel
+    @model DoutrinaAgil.Web.ViewModels.RegisterUserViewModel
 
     <div class="modal fade modal-start" id="createModal">
         <div class="modal-dialog" role="document">
@@ -71,18 +71,20 @@
                         <div class="form-group">
                             <input type="text" class="form-control" id="email" name="email" placeholder="E-mail">
                         </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Senha">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirmar senha">
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Senha">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirmar senha">
+                            </div>
                         </div>
                     </form>
                 </div>
                 <div id="register-msg-box" class="alert alert-danger text-center" role="alert"></div>
                 <div class="modal-footer">
-                    <button type="button" id="btnSalvar" class="btn btn-primary">Salvar</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" id="btnSalvar" class="btn btn-blue">Salvar</button>
+                    <button type="button" class="btn btn-gray" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>

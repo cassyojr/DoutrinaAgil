@@ -1,11 +1,11 @@
 ﻿using System.Web.Mvc;
-using DoutrinaAgil.ViewModels;
 using DoutrinaAgil.Data.Repository;
 using DoutrinaAgil.Data.Datacontext;
 using DoutrinaAgil.Util;
 using System.Web.Security;
+using DoutrinaAgil.Web.ViewModels;
 
-namespace DoutrinaAgil.Controllers
+namespace DoutrinaAgil.Web.Controllers
 {
     public class AuthController : Controller
     {

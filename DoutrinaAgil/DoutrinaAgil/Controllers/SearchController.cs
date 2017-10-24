@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using DoutrinaAgil.Service.Api;
 using DoutrinaAgil.Util;
 
-namespace DoutrinaAgil.Controllers
+namespace DoutrinaAgil.Web.Controllers
 {
     public class SearchController : Controller
     {
@@ -15,6 +15,7 @@ namespace DoutrinaAgil.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<JsonResult> Search(string query)
         {
             if (string.IsNullOrEmpty(query))

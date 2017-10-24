@@ -11,7 +11,7 @@ header {
         margin-right: 10px;
     }
 
-.btn.btn-blue, .btn.btn-green {
+.btn.btn-blue, .btn.btn-green, .btn.btn-gray {
     border: 2px solid transparent;
     border-radius: 4px;
     background-color: #FFFFFF;
@@ -39,6 +39,16 @@ header {
 
     .btn.btn-green:hover {
         background-color: #58A621;
+        color: #FFFFFF;
+    }
+
+.btn.btn-gray {
+    border-color: #CCCFD1;
+    color: #CCCFD1;
+}
+
+    .btn.btn-gray:hover {
+        background-color: #CCCFD1;
         color: #FFFFFF;
     }
 
@@ -194,7 +204,15 @@ footer {
     margin-top: 100px;
 }
 
+.modal-footer button {
+    margin: 0 0 0 10px !important;
+}
+
 /* Popover CSS*/
+.popup-login-btn {
+    margin: 0 !important;
+}
+
 .popover fade bottom in {
     z-index: 9999;
 }
@@ -233,7 +251,7 @@ footer {
 }
 
 #toast-container {
-    margin-top: 70px;
+    margin-top: 130px;
 }
 
 .configButton {
@@ -255,9 +273,11 @@ footer {
         opacity: 0.7;
     }
 
-
 /* Small devices (tablets, 768px and up) */
-@media (min-width: 768px) {
+@media (max-width: 768px) {
+    #toast-container {
+        margin-top: 200px;
+    }
 }
 
 /* Medium devices (desktops, 992px and up) */

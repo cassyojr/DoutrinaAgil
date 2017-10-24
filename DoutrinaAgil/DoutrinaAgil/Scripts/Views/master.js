@@ -1,10 +1,11 @@
 ﻿$(document).ready(function () {
-    //Show toastr message when redirected
+    //show toastr message when redirected
     showQueryMessage();
 
+    //get doctrines total
     GetTotalCount();
 
-    //Set login popup html
+    //set login popup html
     $(function () {
         $("#btn-popover-login").popover({
             html: true,
@@ -21,9 +22,9 @@
 						<input  type="password" class ="form-control" id="password" name="password" placeholder="Senha">
 						</div>
 						<span id="login-msg-box" class ="help-block text-center text-error"></span>
-						<a class ="btn btn-sm btn-primary btn-block popup-login-btn" onclick="popupLogin()">Login</a>`);
+						<a class ="btn btn-sm btn-primary btn-block btn-blue popup-login-btn" onclick="popupLogin()">Login</a>`);
 
-                //Validations for login popup
+                //validations for login popup
                 form.validate({
                     rules: {
                         email: {
@@ -65,7 +66,7 @@
         });
     });
 
-    //Buttons events
+    //buttons events
     $("#btnSalvar").click(function (e) {
         e.preventDefault();
 
@@ -74,11 +75,10 @@
         if (!form.valid())
             return;
 
-        $.ajax({
-            type: "POST",
+        Request.post({
             url: "/Auth/RegisterUser",
             data: $("#form-create-user").serialize(),
-            dataType: "json",
+            ignoreLoading: true,
             success: function (data) {
                 if (data.Response === EResponse.Error) {
                     $("#register-msg-box").text(data.Message);
@@ -86,27 +86,17 @@
                     return;
                 }
 
-                //Redirect to index page to update header
+                //redirect to index page to update header
                 location.href = "?msg=" + data.Message + "&msgType=success";
-            }, error: function (data) {
-                console.log("Erro ao executar requisição ao servidor.");
-                console.log(data.Message);
             }
         });
     });
 
-    //Search events
+    //search events
     $(".search-btn").click(function (e) {
         e.preventDefault();
         searchQuery($("#search-term").val());
     });
-
-    //$(".header-search-btn").click(function (e) {
-    //    e.preventDefault();
-    //    var query = $("#header-search-term").val();
-    //    searchQuery(query);
-    //    $("#search-term").val(query);
-    //});
 
     function searchQuery(query) {
         Request.get({
@@ -137,8 +127,10 @@
         //remove old results
         divResult.html("");
 
+        var query = $("#search-term").val();
+
         if (json.length <= 0) {
-            divResult.append("<div class='col-md-11'><p class='no-result-response-text'>Nenhum resultado encontrado</div>");
+            divResult.append("<h2>Resultados da pesquisa por <span>" + query + "</span></h2><span><span id='result-total'>0</span> Resultados encontrados</span>");
             return;
         }
 
@@ -147,7 +139,6 @@
             var author = result.Book.author;
             var title = result.Book.title;
             var total = json[key].Contents.length;
-            var query = $("#search-term").val();
 
             divResult.append("<h2>Resultados da pesquisa por <span>" + query + "</span></h2><span><span id='result-total'>" + total + "</span> Resultados encontrados</span>");
 
@@ -157,7 +148,7 @@
         });
     }
 
-    //Enter to send search
+    //enter to send search
     $("#search-term").keypress(function (e) {
         if (e.which === 13) {
             $("#search-btn").click();
@@ -167,55 +158,45 @@
 });
 
 function GetTotalCount() {
-    $.ajax({
-        type: "GET",
-        cache: false,
-        dataType: "json",
+    Request.get({
         url: "/Home/GetTotalDoctrines",
+        ignoreLoading: true,
         success: function (data) {
             if (data.Response === EResponse.Error) {
                 toastr.error(data.Message);
                 return;
             }
-
+            
             var result = JSON.parse(data);
             $("#total-doctrines").html(result.doutrinas);
-        },
-        error: function (data) {
-            console.log("Erro ao executar requisição ao servidor.");
-            console.log(data.Message);
         }
     });
 }
 
-//Login function
+//login function
 function popupLogin() {
     var form = $("#form-login");
 
     if (!form.valid())
         return;
 
-    $.ajax({
-        type: "POST",
+    Request.post({
         url: "/Auth/Login",
         data: form.serialize(),
-        dataType: "json",
+        ignoreLoading: true,
         success: function (data) {
             if (data.Response === EResponse.Error) {
                 $("#login-msg-box").text(data.Message);
                 return;
             }
 
-            //Redirect to index page to update header
+            //redirect to index page to update header
             location.href = "?msg=" + data.Message + "&msgType=success";
-        },
-        error: function (data) {
-            alert(data.data);
         }
     });
 }
 
-//Validation register form
+//validation register form
 $("#form-create-user").validate({
     rules: {
         name: {
@@ -264,7 +245,7 @@ $("#form-create-user").validate({
     }
 });
 
-//Show message after login with toastr
+//show message after login with toastr
 function showQueryMessage() {
     var msg = getUrlParameter("msg");
     var msgType = getUrlParameter("msgType");
@@ -278,11 +259,11 @@ function showQueryMessage() {
     if (msgType === "error")
         toastr.error(msg);
 
-    //Change url to remove query string
+    //change url to remove query string
     window.history.pushState("", "Doutrina Ágil - A doutrina que importa para você", "/");
 }
 
-//Get parameter from query string
+//get parameter from query string
 function getUrlParameter(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");

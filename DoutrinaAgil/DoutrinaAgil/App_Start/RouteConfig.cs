@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace DoutrinaAgil
+namespace DoutrinaAgil.Web
 {
     public class RouteConfig
     {

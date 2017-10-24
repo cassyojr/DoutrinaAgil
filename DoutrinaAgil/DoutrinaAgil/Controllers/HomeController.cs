@@ -1,13 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using DoutrinaAgil.Service.Api;
 using DoutrinaAgil.Util;
 
-namespace DoutrinaAgil.Controllers
+namespace DoutrinaAgil.Web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ApiClient _api;
+        private const string COOKIE_KEY = @"total_doctrines";
 
         public HomeController()
         {
@@ -20,14 +23,37 @@ namespace DoutrinaAgil.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<JsonResult> GetTotalDoctrines()
         {
+            var cookie = ReadCookie(COOKIE_KEY);
+
+            if (!string.IsNullOrEmpty(cookie))
+                return Json(cookie, JsonRequestBehavior.AllowGet);
+
             var result = await _api.GetTotalDoctrines();
+            WriteCookie(COOKIE_KEY, result);
 
-            if (result == null)
-                return Json(ResponseData.GetResponseError("Não foram encontrados resultados para a pesquisa"));
+            return result == null
+                ? Json(ResponseData.GetResponseError("Não foram encontrados resultados para a pesquisa"))
+                : Json(result, JsonRequestBehavior.AllowGet);
+        }
 
-            return Json(result, JsonRequestBehavior.AllowGet);
+        private string ReadCookie(string key)
+        {
+            var myCookie = Request.Cookies[key];
+
+            return myCookie?.Value ?? string.Empty;
+        }
+        private void WriteCookie(string key, string value)
+        {
+            var myCookie = new HttpCookie(key)
+            {
+                Value = value,
+                Expires = DateTime.Now.AddMinutes(10)
+            };
+
+            Response.Cookies.Add(myCookie);
         }
     }
 }
