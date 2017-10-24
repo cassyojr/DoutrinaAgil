@@ -1,16 +1,55 @@
-﻿using DoutrinaAgil.Data.Datacontext;
+﻿using System;
+using DoutrinaAgil.Data.Datacontext;
+using System.Data.Entity;
+using System.Linq;
+using DoutrinaAgil.Util.Cryptography;
 
 namespace DoutrinaAgil.Data.Repository
 {
-    public class BaseRepository
+    public class UserRepository
     {
-        public static DoutrinaAgilEntities GetDbContext()
+        public virtual bool Add(User user)
         {
-            var context = new DoutrinaAgilEntities();
-            context.Configuration.ProxyCreationEnabled = false;
-            context.Configuration.LazyLoadingEnabled = true;
+            if (user == null)
+                return false;
 
-            return context;
+            if (GetEmailExists(user.Email))
+                return false;
+
+            user.Password = Crypto.DoCrypto(user.Password);
+
+            using (var context = BaseRepository.GetDbContext())
+            {
+                user.Active = true;
+                context.Entry(user).State = EntityState.Added;
+                context.SaveChanges();
+
+                return true;
+            }
+        }
+
+        public bool GetEmailExists(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                throw new NullReferenceException("email cannot be empty");
+
+            using (var context = BaseRepository.GetDbContext())
+            {
+                var user = context.User.SingleOrDefault(x => x.Email.Equals(email));
+
+                return user != null;
+            }
+        }
+
+        public User Get(string email, string password)
+        {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+                return null;
+
+            var cryptPw = Crypto.DoCrypto(password);
+
+            using (var context = BaseRepository.GetDbContext())
+                return context.User.SingleOrDefault(x => x.Email.Equals(email) && x.Password.Equals(cryptPw));
         }
     }
 }

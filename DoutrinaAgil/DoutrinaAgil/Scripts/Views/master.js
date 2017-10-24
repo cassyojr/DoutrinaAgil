@@ -22,7 +22,9 @@
 						<input  type="password" class ="form-control" id="password" name="password" placeholder="Senha">
 						</div>
 						<span id="login-msg-box" class ="help-block text-center text-error"></span>
-						<a class ="btn btn-sm btn-primary btn-block btn-blue popup-login-btn" onclick="popupLogin()">Login</a>`);
+                        <div class='form-group'>
+						<a class ="btn btn-sm btn-primary btn-block btn-blue popup-login-btn" onclick="popupLogin()">Login</a>
+                        <a class ="btn btn-sm btn-primary btn-block btn-gray popup-close-btn">Fechar</a></div>`);
 
                 //validations for login popup
                 form.validate({
@@ -66,6 +68,38 @@
         });
     });
 
+    //popover events when show and hide
+    $("[data-toggle='popover']").on("shown.bs.popover", function () {
+        var email = $(".popover").find("#email");
+        var password = $(".popover").find("#password");
+
+        email.focus();
+
+        //enter to select next popover field
+        email.keypress(function (e) {
+            if (e.which === 13) {
+                password.focus();
+                return false;
+            }
+
+            return true;
+        });
+
+        //enter to send form on field password
+        password.keypress(function (e) {
+            if (e.which === 13) {
+                popupLogin();
+                return false;
+            }
+
+            return true;
+        });
+    });
+
+    $("[data-toggle='popover']").on("hidden.bs.popover", function () {
+        $("#search-term").focus();
+    });
+
     //buttons events
     $("#btnSalvar").click(function (e) {
         e.preventDefault();
@@ -99,6 +133,13 @@
     });
 
     function searchQuery(query) {
+        $("#response-box-container").addClass("hidden");
+
+        if (query === "") {
+            toastr.error("Informe uma Palavra-chave, autor ou título");
+            return;
+        }
+
         Request.get({
             url: "/Search/Search",
             data: "query=" + query,
@@ -154,7 +195,12 @@
             $("#search-btn").click();
             return false;
         }
+
+        return true;
     });
+
+    //focus main search field
+    $("#search-term").focus();
 });
 
 function GetTotalCount() {
@@ -166,7 +212,7 @@ function GetTotalCount() {
                 toastr.error(data.Message);
                 return;
             }
-            
+
             var result = JSON.parse(data);
             $("#total-doctrines").html(result.doutrinas);
         }

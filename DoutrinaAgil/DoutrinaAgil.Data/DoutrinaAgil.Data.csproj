@@ -105,6 +105,12 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DoutrinhaAgil.Util\DoutrinaAgil.Util.csproj">
+      <Project>{61fdb704-03ba-4593-9ac1-337d070e9096}</Project>
+      <Name>DoutrinaAgil.Util</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

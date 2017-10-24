@@ -70,14 +70,3 @@ toastr.options = {
     "preventDuplicates": true,
     "positionClass": "toast-top-right"
 };
-
-////Declare loading spinner methods to global scope
-//$(function () {
-//    $.loading_spinner_on = function () {
-//        alert("loading");
-//    };
-
-//    $.loading_spinner_off = function () {
-//        alert("unload");
-//    };
-//});
