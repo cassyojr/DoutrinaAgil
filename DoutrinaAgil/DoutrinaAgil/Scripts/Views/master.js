@@ -23,8 +23,7 @@
 						</div>
 						<span id="login-msg-box" class ="help-block text-center text-error"></span>
                         <div class='form-group'>
-						<a class ="btn btn-sm btn-primary btn-block btn-blue popup-login-btn" onclick="popupLogin()">Login</a>
-                        <a class ="btn btn-sm btn-primary btn-block btn-gray popup-close-btn">Fechar</a></div>`);
+						<a class ="btn btn-sm btn-primary btn-block btn-blue popup-login-btn" onclick="popupLogin()">Login</a></div>`);
 
                 //validations for login popup
                 form.validate({
