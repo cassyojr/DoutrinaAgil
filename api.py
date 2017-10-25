@@ -11,9 +11,11 @@ sys.setdefaultencoding('utf8')
 
 def remove_accents(data):
     return data.encode('utf-8').strip()
+    #return ''.join(x for x in unicodedata.normalize('NFKD', data) if x in string.ascii_letters).lower()
+
 
 #curl -d "token=value1&json=1" -X POST http://127.0.0.1:8000/DoutrinaAgil/api/find/
-#curl -d "token="Dura_lex_sed_lex"a=&query=Association" -X POST https://lapuinka.pythonanywhere.com/DoutrinaAgil/dev/find/
+#curl -d "token=DAWbiMVyDhNOhBOgs7vbFMhEIUrLSQ6o2FZea=&query=Association" -X POST https://lapuinka.pythonanywhere.com/DoutrinaAgil/dev/find/
 @request.restful()
 def find():
     response.view = 'generic.json'
@@ -29,42 +31,62 @@ def find():
             return dict(content=parser.response)
         else:
             raise HTTP(parser.status,parser.error)
-    def GET(token, query):
+    def GET():
         return POST(token,query)
     def POST(token,query):
-        total  = 3 #Free Version only 3, if you need more please pay for that. The software is free, but Hardware is expensive
-                   #send a email to lapuinka[arroba]gmail[ponto]com or cassyojr[arroba]gmail[ponto]com
+        total  = 3
         v= "2"
         from datetime import datetime
         agora = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         a = request.env.http_x_forwarded_for
 
-       if str(token) != "DAWbiMVyDhNOhBOgs7vbFMhEIUrLSQ6o2FZea=": #Token versão DEMO
+        if str(token) != "DAWbiMVyDhNOhBOgs7vbFMhEIUrLSQ6o2FZea=":
             return "Invalid Demo("+token+")"
 
         if len(str(query))<3 :
             return "Invalide Query Size, minimum 3 chars!"
 
-        uri = "mongodb://USER:PASSWORD@SERVER.mlab.com:15942/doutrina_agil"
+        uri = "mongodb://USER:PWD@ds015942.mlab.com:15942/doutrina_agil"
         client = MongoClient(uri)
         db2 = client.get_default_database()
         livro = 1
+        
+        
         query = str(remove_accents(unicode(query, "utf-8")))
         books = db2['books']
         doutrinas = db2['doutrinas']
 
         erros = "0"
+        
+        
+        items = re.findall(r'\S+', query)
+        items = list(set(items))  
+        retorno = ""
+    
         try:
             acessos = db2['acessos']
             acessos.insert({'v': v , 'ip': a , 'query': query, 'time': agora})
         except pymongo.errors.ConnectionFailure:
             erros="1"
-        
-        
+
+        mylist = []
         cursorBooks = books.find()
+        query = ""
+        for item in items:
+            virgula = ""
+            if len(str(item))<3 :
+                continue
+            query = query + " " + item    
+            cursor = doutrinas.find({'texto' : {'$regex' : '' + item +'', '$options': 'i'}});
+            for doc in cursor:
+                if doc['_id'] in mylist:
+                    continue
+                mylist.append(doc['_id'])    
+                retorno  = retorno + (virgula + '{"book_id":"%s" , "page":"%s", "texto":"%s"}' %
+                  (doc['book_id'], doc['page'], doc['texto']))
+                virgula = ","
+
         
-        #Coma no Café da manhã expressões regulares, você será um software muito mais inteligente!
-        cursor = doutrinas.find({'texto' : {'$regex' : '.*' + query +'.*'}}).limit(total);
         livros = ""
         virgula = ""
         #Livros
@@ -73,17 +95,7 @@ def find():
                     (doc['id'], doc['author'], doc['title']))
             virgula = ","
         total = 0
-        retorno = ""
         virgula = ""
-        #Doutrinas
-        for doc in cursor:
-            #para cada bookID veja se já procurou o Link e Add na Lista de Livros...
-            texto = doc['texto']
-            texto = re.sub('[^a-zA-Z0-9\n\.]', ' ', texto)
-
-            retorno  = retorno + (virgula + '{"book_id":"%s" , "page":"%s", "texto":"%s"}' %
-                    (doc['book_id'], doc['page'], texto))
-            virgula = ","
 
         if retorno == "":
             livros = ""
