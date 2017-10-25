@@ -1,0 +1,50 @@
+Check List HackTon
+
+1. O que eu devo entregar?
+R: Produto mínimo viável (MVP) em protótipo navegável no GITHUB; a descrição da arquitetura da solução 
+e a justificativa dessa arquitetura. Esta entrega esta no Item 4 (dos critérios de seleção) 
+do Regulamento que estava no edital de convocação do Hackathon.
+
+SAMMET: A arquitetura é WEB onde temos um servidor MongoDB Escalável - > PythonAnyWhere - > Web2Py -> Python  e clientes Python e C#
+
+Esta arquitetura foi escolhida pois fizemos uma API em REST fácil de integrar com qualquer aplicativo.
+
+2. E se eu não quiser entregar o código?
+R: Antes de mais nada é importante lembrar que segundo o mesmo regulamento, o código fonte pertence aos times que criaram as soluções ("2.20 Os códigos fontes gerados HACKATHON OAB/PR 2017 pertencerão aos times concorrentes."), mas caso não queira disponibilizar o código para avaliação, segundo as regras de pontuação (INTERMEZZO, item 7), não é elegivel aos 150 pontos desta etapa.
+
+SAMMET: Os fontes estão aqui no GIT https://github.com/kissmysword/DoutrinaAgil
+
+3. E se algum time utilizar nosso código para fazer algo parecido?
+R: Caso isso seja detectado pela comissão de avaliação, a equipe que utilizar código de outros times,
+pode ser desclassificada, conforme o item 2.8 do regulamento do Hackathon ("2.8 Não serão aceitos
+Projetos Preliminares realizados previamente ou código de software principal escrito anterior ao início da competição.")
+SAMMET: 100% criado como projeto novo, sem qualquer interação com outras equipes.
+
+4. E se eu entregar meu código somente na Quarta-feira (25/10/17)? Ou se entregar o código e fizer alguma modificação depois.
+R: A equipe que entregar o código após as 23:59 de hoje (23/10/17), ou fizer alguma atualização após esta data, não está elegivel aos 20 pontos de bonus pela entrega de hoje.
+
+5. Como eu publico o código fonte no Github?
+R: Você pode criar um repositório chamado "hackathonoab2017",
+e adicionar seu código lá. Segue um exemplo do youtube em como criar uma conta e um repositório,
+para ajuda-los (https://www.youtube.com/watch?v=3lunZIG2Q_k)
+
+Já temos nome! https://github.com/lapuinka/doutrinaagil/new/master
+
+6. O que é a Descrição da Arquitetura?
+R: Um breve resumo técnico da sua solução, e como ela é se integra.
+Caso tenha utilizado componentes/soluções externas, explicar como elas se integram.
+
+Nossa aplicação consistem em uma API REST com interface HTTP que exibe métodos de leitura mediante TOKEN de acesso.
+A API por sua vez disponibiliza as Doutrinas.
+
+7. O que é a Justificativa dessa arquitetura?
+R: Porque optou-se por utilizar essa solução tecnológica para montar o MVP? 
+Quais são os beneficios para o usuário? Ela é "escalável"?
+
+Esta arquitetura foi usada pois ela é escalável, o MONGO de pode ser clusterizado e está todo na Nuvem, alem do mais o Python é facil
+de mecher e não precisa ser recompilado. O benefício é uma aplicação em núvem com banco de dados Mongo DB na Amazon e também 
+pythonanywhere que é leve e seguro, um dos framework mais seguros que tem em Python.
+
+O Resultado é uma aplicação Leve de fácil escalabilidade e que pode ser usada em outros dispositivos e integrada.
+
+O usuário tem uma aplicação leve e LIMPA. 
