@@ -23,7 +23,7 @@ Integrantes:
 
 URL FOTO: https://uploaddeimagens.com.br/imagens/index-jpg--78
 
-Pesquisa de Mercado: ????
+Pesquisa de Mercado: Enviada por e-mail
 
 Canvas: https://ibb.co/kaasOw
 
