@@ -169,6 +169,11 @@ header {
 
     .result-item .result-text {
         margin-top: 8px;
+        text-align: justify;
+    }
+
+    .result-item .result-text mark{
+        color: #94E500;
     }
 
 footer {
@@ -297,4 +302,8 @@ footer {
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
+}
+
+.highlight-result {
+    color: #58A621;
 }

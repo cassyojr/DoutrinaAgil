@@ -158,16 +158,21 @@
     }
 
     function showSearchResult(data) {
-        var json = JSON.parse(data);
         var divResult = $("#response-box-container");
-
-        //show the result container
-        divResult.removeClass("hidden");
+        var query = $("#search-term").val();
 
         //remove old results
         divResult.html("");
 
-        var query = $("#search-term").val();
+        //show the result container
+        divResult.removeClass("hidden");
+
+        if (data === "") {
+            divResult.append("<h2>Resultados da pesquisa por <span>" + query + "</span></h2><span><span id='result-total'>0</span> Resultados encontrados</span>");
+            return;
+        }
+
+        var json = JSON.parse(data);
 
         if (json.length <= 0) {
             divResult.append("<h2>Resultados da pesquisa por <span>" + query + "</span></h2><span><span id='result-total'>0</span> Resultados encontrados</span>");
@@ -183,9 +188,33 @@
             divResult.append("<h2>Resultados da pesquisa por <span>" + query + "</span></h2><span><span id='result-total'>" + total + "</span> Resultados encontrados</span>");
 
             $.each(json[key].Contents, function (key, content) {
-                divResult.append("<div class='result-item'><span class='result-title'>" + title + "</span><span class='result-author'><i>Autor</i>" + author + "</span><span class='result-page'><i>Página</i>" + content.page + "</span><span class='result-text'><i>" + content.texto + "</i></span></div>");
+                divResult.append("<div class='result-item'><span class='result-title'>" + title + "</span><span class='result-author'><i>Autor</i>" + author + "</span><span class='result-page'><i>Página</i>" + content.page + "</span><span class='result-text'><p>" + content.texto + "</p></span></div>");
             });
+
+            //$(".result-item").accordion();
+
+            //highlight result texts
+            //$(".result-text").html(resultHighlight($(".result-text").html(), query));
         });
+    }
+
+    //highlight query words in result
+    function resultHighlight(text, term) {
+        debugger;
+        var terms = term.split(" ");
+
+        $.each(terms, function (key, term) {
+            if (term.length >= 3) {
+                term = term.replace(/(\s+)/, "(<[^>]+>)*$1(<[^>]+>)*");
+                var pattern = new RegExp("(" + term + ")", "gi");
+
+                text = text.replace(pattern, "<mark>$1</mark>");
+            }
+        });
+
+        return text;
+        //remove the mark tag if needed
+        //srcstr = srcstr.replace(/(<mark>[^<>]*)((<[^>]+>)+)([^<>]*<\/mark>)/, "$1</mark>$2<mark>$4");
     }
 
     //enter to send search

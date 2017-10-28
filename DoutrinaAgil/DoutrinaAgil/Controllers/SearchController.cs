@@ -18,10 +18,12 @@ namespace DoutrinaAgil.Web.Controllers
         [AllowAnonymous]
         public async Task<JsonResult> Search(string query)
         {
-            if (string.IsNullOrEmpty(query))
+            var queryTrim = query.Trim();
+
+            if (string.IsNullOrEmpty(queryTrim))
                 return Json(ResponseData.GetResponseError("Pesquisa inválida"));
 
-            var result = await _api.GetApiBooks(query);
+            var result = await _api.GetApiBooks(queryTrim);
 
             if (result == null)
                 return Json(ResponseData.GetResponseError("Não foram encontrados resultados para a pesquisa"));
