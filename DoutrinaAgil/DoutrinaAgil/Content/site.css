@@ -302,14 +302,7 @@ footer {
     }
 
 #btn-scroll-top {
-    margin: 0 !important;
     background-color: transparent;
-    position: fixed;
-    top: 715px;
-    right: 140px;
-    /*border: 2px solid #0038B0;
-    color: #0038B0 !important;
-    background: white*/
 }
 
     #btn-scroll-top:hover {

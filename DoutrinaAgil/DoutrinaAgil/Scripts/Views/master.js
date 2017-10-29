@@ -199,7 +199,7 @@
 
             $.each(json[key].Contents, function (key, content) {
                 var preview = content.texto.substr(0, 400) + "...";
-                divResult.append("<div class='result-item' data-publisher='" + publisher + "' data-year='" + year + "' data-local='" + local + "'><span class='result-title'>" + title + "</span><span class='result-author'><i>Autor</i>" + author + "</span><span class='result-page'><i>Página</i>" + content.page + "</span><span class='result-text'><h3>" + preview + "<h3><div><p onclick='copyToClipboard()'>" + content.texto + "</p></div></span></div>");
+                divResult.append("<div class='result-item' data-publisher='" + publisher + "' data-year='" + year + "' data-local='" + local + "'><span class='result-title'>" + title + "</span><span class='result-author'><i>Autor</i>" + author + "</span><span class='result-page'><i>Página</i>" + content.page + "</span><span class='result-text'><h3>" + preview + "<h3><div><p onclick='copyToClipboard(event)'>" + content.texto + "</p></div></span></div>");
             });
 
             //highlight result texts
@@ -398,7 +398,7 @@ function getUrlParameter(name) {
 };
 
 //mouse events
-function copyToClipboard() {
+function copyToClipboard(event) {
     var text = window.getSelection().toString();
 
     if (text === "") {
