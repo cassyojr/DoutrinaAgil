@@ -131,6 +131,8 @@
     //search events
     $(".search-btn").click(function (e) {
         e.preventDefault();
+
+        $("#quote-btn").addClass("hidden");
         $("#search-term").val($("#search-term").val().trim());
         searchQuery($("#search-term").val());
     });
@@ -185,6 +187,7 @@
 
         //append new results
         $.each(json, function (key, result) {
+            //books and doctrines informations
             var author = result.Book.author;
             var title = result.Book.title;
             var publisher = result.Book.editora;
@@ -198,7 +201,8 @@
             divResult.append("<h2>Resultados da pesquisa por <span>" + query + "</span></h2><span><span id='result-total'>" + total + "</span> Resultados encontrados</span>");
 
             $.each(json[key].Contents, function (key, content) {
-                var preview = content.texto.substr(0, 400) + "...";
+                var regex = /(<([^>]+)>)/ig; //remove all html from preview to not break accordion styles
+                var preview = content.texto.replace(regex, "").substr(0, 400) + "..."; //limit the preview text
                 divResult.append("<div class='result-item' data-publisher='" + publisher + "' data-year='" + year + "' data-local='" + local + "'><span class='result-title'>" + title + "</span><span class='result-author'><i>Autor</i>" + author + "</span><span class='result-page'><i>Página</i>" + content.page + "</span><span class='result-text'><h3>" + preview + "<h3><div><p onclick='copyToClipboard(event)'>" + content.texto + "</p></div></span></div>");
             });
 
