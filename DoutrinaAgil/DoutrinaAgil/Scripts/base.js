@@ -17,12 +17,27 @@ var abtnFunc = (function () {
 
 //Encapsulated ajax methods
 var Request = (function () {
+    //spinner loading
     function showLoading() {
         $(".spinner").removeClass("hidden");
     };
 
     function hideLoading() {
         $(".spinner").addClass("hidden");
+    };
+
+    //button loading
+    function showButtonLoading(btn) {
+        var $this = $(btn).children(".fa.fa-refresh.fa-spin");
+        $this.removeClass("hidden");
+        $(btn).attr("disabled", "disabled");
+    };
+
+    function hideButtonLoading() {
+        $.each($(".fa.fa-refresh.fa-spin"), function (key, element) {
+            $(element).addClass("hidden");
+            $(element).parent().removeAttr("disabled");
+        });
     };
 
     return {
@@ -34,13 +49,19 @@ var Request = (function () {
                 url: params.url,
                 data: params.data,
                 beforeSend: function () {
-                    if (params.ignoreLoading === true)
+                    if (params.ignoreLoading !== true){
+                        showLoading();
                         return;
+                    }
 
-                    showLoading();
+                    if (params.buttonLoading !== null) {
+                        showButtonLoading(params.buttonLoading);
+                        return;
+                    }
                 },
                 complete: function () {
                     hideLoading();
+                    hideButtonLoading();
                 },
                 success: params.success,
                 error: function (data) { AjaxUnhandlerError(data) }

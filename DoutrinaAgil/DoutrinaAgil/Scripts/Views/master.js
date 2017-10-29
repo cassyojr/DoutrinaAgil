@@ -26,7 +26,7 @@
 						</div>
 						<span id="login-msg-box" class ="help-block text-center text-error"></span>
                         <div class='form-group'>
-						<a class ="btn btn-sm btn-primary btn-block btn-blue popup-login-btn" onclick="popupLogin()">Login</a></div>`);
+						<button class ="btn btn-sm btn-primary btn-block btn-blue popup-login-btn" onclick="popupLogin()"><i class ="fa fa-refresh fa-spin hidden"></i>Login</button></div>`);
 
                 //validations for login popup
                 form.validate({
@@ -103,7 +103,7 @@
     });
 
     //buttons events
-    $("#btnSalvar").click(function (e) {
+    $("#btnSave").click(function (e) {
         e.preventDefault();
 
         var form = $("#form-create-user");
@@ -115,6 +115,7 @@
             url: "/Auth/RegisterUser",
             data: $("#form-create-user").serialize(),
             ignoreLoading: true,
+            buttonLoading: $(this),
             success: function (data) {
                 if (data.Response === EResponse.Error) {
                     $("#register-msg-box").text(data.Message);
@@ -285,6 +286,16 @@
         }, "fast");
     });
 
+    //event to close login popup when register modal opens
+    $("#createModal").on("shown.bs.modal", function () {
+        $("[data-toggle='popover']").each(function () {
+            var pop = $(this);
+
+            if (pop.is(":visible"))
+                pop.popover("hide");
+        });
+    });
+
 });//end document.ready event
 
 function getTotalCount() {
@@ -314,6 +325,7 @@ function popupLogin() {
         url: "/Auth/Login",
         data: form.serialize(),
         ignoreLoading: true,
+        buttonLoading: $(".popup-login-btn")[0],
         success: function (data) {
             if (data.Response === EResponse.Error) {
                 $("#login-msg-box").text(data.Message);

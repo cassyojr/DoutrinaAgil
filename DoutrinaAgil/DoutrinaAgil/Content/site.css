@@ -310,6 +310,11 @@ footer {
         border-radius: 50% !important;
     }
 
+/*button spinner style*/
+.btn .fa.fa-refresh.fa-spin {
+    margin-right: 10px;
+}
+
 /* Small devices (tablets, 768px and up) */
 @media (max-width: 768px) {
     #toast-container {
@@ -319,6 +324,10 @@ footer {
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
+    .bg-main {
+       min-height: calc(100% - 197px);
+    }
+
     .search-field .col-md-10 {
         padding-right: 0 !important;
     }
@@ -338,6 +347,9 @@ footer {
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
+    .bg-main {
+       min-height: calc(100% - 197px);
+    }
 }
 
 .highlight-result {
