@@ -11,7 +11,7 @@ header {
         margin-right: 10px;
     }
 
-.btn.btn-blue, .btn.btn-green, .btn.btn-gray {
+.btn.btn-blue, .btn.btn-green, .btn.btn-gray, .btn.btn-quote {
     border: 2px solid transparent;
     border-radius: 4px;
     background-color: #FFFFFF;
@@ -39,6 +39,18 @@ header {
 
     .btn.btn-green:hover {
         background-color: #58A621;
+        color: #FFFFFF;
+    }
+
+.btn.btn-quote {
+    border-color: #022E6C;
+    color: #022E6C;
+    padding: 5px 15px;
+    margin-top: 10px;
+}
+
+    .btn.btn-quote:hover {
+        background-color: #022E6C;
         color: #FFFFFF;
     }
 
@@ -172,8 +184,15 @@ header {
         text-align: justify;
     }
 
-    .result-item .result-text mark{
-        color: #94E500;
+        .result-item .result-text mark {
+            color: #94E500;
+        }
+
+    .result-item .ui-state-active {
+        border: 1px solid #022E6C;
+        background: #022E6C;
+        font-weight: normal;
+        color: #fff;
     }
 
 footer {
@@ -282,6 +301,22 @@ footer {
         opacity: 0.7;
     }
 
+#btn-scroll-top {
+    margin: 0 !important;
+    background-color: transparent;
+    position: fixed;
+    top: 715px;
+    right: 140px;
+    /*border: 2px solid #0038B0;
+    color: #0038B0 !important;
+    background: white*/
+}
+
+    #btn-scroll-top:hover {
+        border: 2px solid #FFFFFF;
+        border-radius: 50% !important;
+    }
+
 /* Small devices (tablets, 768px and up) */
 @media (max-width: 768px) {
     #toast-container {
@@ -297,6 +332,14 @@ footer {
 
     .search-field .col-md-2 {
         padding-left: 0 !important;
+    }
+
+    html, body {
+        height: 100%;
+    }
+
+    .bg-main {
+        height: calc(100% - 197px);
     }
 }
 

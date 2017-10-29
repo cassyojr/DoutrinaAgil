@@ -3,7 +3,10 @@
     showQueryMessage();
 
     //get doctrines total
-    GetTotalCount();
+    getTotalCount();
+
+    //focus main search field
+    $("#search-term").focus();
 
     //set login popup html
     $(function () {
@@ -128,6 +131,7 @@
     //search events
     $(".search-btn").click(function (e) {
         e.preventDefault();
+        $("#search-term").val($("#search-term").val().trim());
         searchQuery($("#search-term").val());
     });
 
@@ -183,24 +187,43 @@
         $.each(json, function (key, result) {
             var author = result.Book.author;
             var title = result.Book.title;
+            var publisher = result.Book.editora;
+            var year = result.Book.anoPub;
+            var local = result.Book.localPub;
             var total = json[key].Contents.length;
+
+            //alter bg-main css to fit the height
+            $(".bg-main").css("height", "auto");
 
             divResult.append("<h2>Resultados da pesquisa por <span>" + query + "</span></h2><span><span id='result-total'>" + total + "</span> Resultados encontrados</span>");
 
             $.each(json[key].Contents, function (key, content) {
-                divResult.append("<div class='result-item'><span class='result-title'>" + title + "</span><span class='result-author'><i>Autor</i>" + author + "</span><span class='result-page'><i>Página</i>" + content.page + "</span><span class='result-text'><p>" + content.texto + "</p></span></div>");
+                var preview = content.texto.substr(0, 400) + "...";
+                divResult.append("<div class='result-item' data-publisher='" + publisher + "' data-year='" + year + "' data-local='" + local + "'><span class='result-title'>" + title + "</span><span class='result-author'><i>Autor</i>" + author + "</span><span class='result-page'><i>Página</i>" + content.page + "</span><span class='result-text'><h3>" + preview + "<h3><div><p onclick='copyToClipboard()'>" + content.texto + "</p></div></span></div>");
             });
-
-            //$(".result-item").accordion();
 
             //highlight result texts
             //$(".result-text").html(resultHighlight($(".result-text").html(), query));
+        });
+
+        $(".result-text").accordion({
+            active: false,
+            collapsible: true,
+            activate: function (event, ui) {
+                if (!ui.newHeader.length)
+                    return;
+
+                var top = $(ui.newHeader).offset().top;
+
+                $("html,body").animate({
+                    scrollTop: top - 100
+                }, 1500);
+            }
         });
     }
 
     //highlight query words in result
     function resultHighlight(text, term) {
-        debugger;
         var terms = term.split(" ");
 
         $.each(terms, function (key, term) {
@@ -227,11 +250,40 @@
         return true;
     });
 
-    //focus main search field
-    $("#search-term").focus();
-});
+    $("#quote-btn").click(function (e) {
+        e.preventDefault();
 
-function GetTotalCount() {
+        var book = window.getSelection().getRangeAt(0).startContainer.parentNode.closest(".result-item");
+        var author = abtnFunc.name($(book).children(".result-author").ignore("i").text());
+        var title = $(book).children(".result-title").text();
+        var page = $(book).children(".result-page").ignore("i").text();
+        var local = $(book).data("local");
+        var publisher = $(book).data("publisher");
+        var year = $(book).data("year");
+        var cbFooter = author + " " + title + ". " + local + ": " + publisher + ", " + year + ", Pg. " + page + ".";
+        var cbText = window.getSelection().toString();
+        var $temp = $("<textarea>").appendTo("body").val("\"" + cbText + "\"\r\n" + cbFooter).select();
+
+        $("#quote-btn").addClass("hidden");
+        document.execCommand("copy");
+        $temp.remove();
+
+        //message copyed to clipboard to user
+        toastr.success("Citação copiada com sucesso");
+    });
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+    //event that scrolls page to top
+    $("#btn-scroll-top").click(function () {
+        $("html,body").animate({
+            scrollTop: 0
+        }, "fast");
+    });
+
+});//end document.ready event
+
+function getTotalCount() {
     Request.get({
         url: "/Home/GetTotalDoctrines",
         ignoreLoading: true,
@@ -345,7 +397,20 @@ function getUrlParameter(name) {
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 };
 
-//repositioning tooltip when window changes size
+//mouse events
+function copyToClipboard() {
+    var text = window.getSelection().toString();
+
+    if (text === "") {
+        $("#quote-btn").addClass("hidden");
+    } else {
+        var quoteBtn = $("#quote-btn");
+        quoteBtn.css({ position: "absolute", top: event.pageY, left: event.pageX });
+        quoteBtn.removeClass("hidden");
+    }
+};
+
+//repositioning popover when window changes size
 $(window).off("resize").on("resize", function () {
     $("[data-toggle='popover']").each(function () {
         var popover = $(this);

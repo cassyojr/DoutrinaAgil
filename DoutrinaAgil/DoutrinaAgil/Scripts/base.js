@@ -4,6 +4,17 @@ EResponse = {
     Success: 1
 }
 
+//abtn text functions
+var abtnFunc = (function () {
+    return {
+        name: function (fullName) {
+            var firstName = fullName.split(" ").slice(0, -1).join(" ");
+            var lastName = fullName.split(" ").slice(-1).join(" ");
+            return lastName.toUpperCase() + ", " + firstName + ".";
+        }
+    };
+})();
+
 //Encapsulated ajax methods
 var Request = (function () {
     function showLoading() {
@@ -69,4 +80,9 @@ AjaxUnhandlerError = function (data) {
 toastr.options = {
     "preventDuplicates": true,
     "positionClass": "toast-top-right"
+};
+
+//plugin to ignore an element inside another
+$.fn.ignore = function (sel) {
+    return this.clone().find(sel || ">*").remove().end();
 };

@@ -7,9 +7,9 @@
 }
 
 .spinner > div {
-  background-color: #333;
+  background-color: #FFFFFF;
   height: 100%;
-  width: 6px;
+  width: 8px;
   display: inline-block;
   
   -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;

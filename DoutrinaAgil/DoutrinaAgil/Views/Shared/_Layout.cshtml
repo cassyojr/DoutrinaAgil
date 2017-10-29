@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Doutrina Ágil</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita‌​lic,400italic,500,500italic,700,700italic,900italic,900" rel="stylesheet">
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <link href="~/Content/toastr.min.css" rel="stylesheet"/>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/accordion.css" rel="stylesheet" />
     <link href="~/Content/loading.css" rel="stylesheet" />
     <link href="~/Content/site.css" rel="stylesheet" />
 </head>
@@ -49,7 +52,7 @@
                     <span>Todos os direitos reservados</span>
                 </div>
                 <div class="col-md-2 text-right">
-                    <a href="#" class="btn glyphicon glyphicon-chevron-up"></a>
+                    <a class="btn glyphicon glyphicon-chevron-up" data-toggle="tooltip" data-placement="top" title="Topo" id="btn-scroll-top"></a>
                 </div>
             </div>
         </div>
@@ -92,15 +95,17 @@
         </div>
     </div>
 
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    @*<script src="~/Scripts/modernizr-2.6.2.js"></script>*@
     <script src="~/Scripts/jquery-3.2.1.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/toastr.min.js"></script>
     <script src="~/Scripts/base.js"></script>
     <script src="~/Scripts/Views/master.js"></script>
+
 </body>
 </html>
